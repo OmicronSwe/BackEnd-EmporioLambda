@@ -1,0 +1,11 @@
+.git
+.github
+.gitignore
+node_modules
+.serverless
+LICENSE
+package.json
+package-lock.json
+prettier-config.json
+serverless.yml
+tsconfig.json
