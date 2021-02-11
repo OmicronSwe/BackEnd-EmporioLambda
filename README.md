@@ -33,7 +33,7 @@ npm install
 Per creare una nuova funzione, con relativo file per test di unita', usare:
 
 ```
-sls create function sls create function -f nomeFunzione --handler functions/nomeFunzione/handler.nomeFunzione
+sls create function -f nomeFunzione --handler functions/nomeFunzione/handler.nomeFunzione
 ```
 
 Verrà creata una cartella all'interno della cartella `functions` con il nome della funzione, e al suo interno il file `handler.js` con il codice della funzione.
