@@ -32,7 +32,6 @@ functions:
           path: hello
           method: GET
 
-
 resources:
   Resources:
     #Cognito - User pool
@@ -63,13 +62,13 @@ resources:
             Required: true
             DeveloperOnlyAttribute: false
             Mutable: true
-    
+
     #Cognito - Client
     CognitoPoolCLient:
       Type: AWS::Cognito::UserPoolClient
       Properties:
         ClientName: ${self:provider.environment.NAMESPACE}-user_pool_client
-        UserPoolId: 
+        UserPoolId:
           Ref: CognitoUserPool
         AllowedOAuthFlowsUserPoolClient: true
         AllowedOAuthFlows:
@@ -84,27 +83,27 @@ resources:
           - http://localhost:3000 #da modificare (indirizzo dopo il logout)
         #DefaultRedirectURI: da inserire forse
         GenerateSecret: true
-    
+
     #Cognito - ClienteGroup
     CognitoGroupCliente:
       Type: AWS::Cognito::UserPoolGroup
-      Properties: 
+      Properties:
         Description: Clienti che acquisteranno i prodotti
         GroupName: Cliente
         #Precedence: Double
         #RoleArn: String
-        UserPoolId: 
+        UserPoolId:
           Ref: CognitoUserPool
 
     #Cognito - VenditoreAdminGroup
     CognitoGroupVenditoreAdmin:
       Type: AWS::Cognito::UserPoolGroup
-      Properties: 
+      Properties:
         Description: Venditori e Admin che gestiscono il sito
         GroupName: VenditoreAdmin
         #Precedence: Double
         #RoleArn: String
-        UserPoolId: 
+        UserPoolId:
           Ref: CognitoUserPool
 
 plugins:
