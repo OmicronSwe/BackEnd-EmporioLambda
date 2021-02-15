@@ -32,6 +32,92 @@ functions:
           path: hello
           method: GET
 
+resources:
+  Resources:
+    #Cognito - User pool
+    CognitoUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: ${self:provider.environment.NAMESPACE}-user_pool
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 8
+            RequireLowercase: true
+            RequireNumbers: true
+            RequireSymbols: true
+            RequireUppercase: true
+
+        UsernameAttributes:
+          - email
+        AutoVerifiedAttributes:
+          - email
+        Schema:
+          - AttributeDataType: String
+            Name: email
+            Required: true
+            Mutable: true
+            DeveloperOnlyAttribute: false
+          - AttributeDataType: String
+            Name: name
+            Required: true
+            Mutable: true
+            DeveloperOnlyAttribute: false
+          - AttributeDataType: String
+            Name: family_name
+            Required: true
+            DeveloperOnlyAttribute: false
+            Mutable: true
+          - AttributeDataType: String
+            Name: address
+            Required: true
+            DeveloperOnlyAttribute: false
+            Mutable: true
+
+    #Cognito - Client
+    CognitoPoolCLient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: ${self:provider.environment.NAMESPACE}-user_pool_client
+        UserPoolId:
+          Ref: CognitoUserPool
+        AllowedOAuthFlowsUserPoolClient: true
+        SupportedIdentityProviders:
+          - COGNITO
+        AllowedOAuthFlows:
+          - code
+        AllowedOAuthScopes:
+          - email
+          - openid
+          - profile
+        CallbackURLs:
+          - http://localhost:3000 #da modificare (indirizzo dopo il login o registrazione)
+        LogoutURLs:
+          - http://localhost:3000 #da modificare (indirizzo dopo il logout)
+        #DefaultRedirectURI: da inserire forse
+        GenerateSecret: false
+
+    #Cognito - ClienteGroup
+    CognitoGroupCliente:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties:
+        Description: Clienti che acquisteranno i prodotti
+        GroupName: Cliente
+        #Precedence: Double
+        #RoleArn: String
+        UserPoolId:
+          Ref: CognitoUserPool
+
+    #Cognito - VenditoreAdminGroup
+    CognitoGroupVenditoreAdmin:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties:
+        Description: Venditori e Admin che gestiscono il sito
+        GroupName: VenditoreAdmin
+        #Precedence: Double
+        #RoleArn: String
+        UserPoolId:
+          Ref: CognitoUserPool
+
 plugins:
   - serverless-plugin-typescript
   - serverless-mocha-plugin
