@@ -90,7 +90,7 @@ resources:
           - openid
           - profile
         CallbackURLs:
-          - http://localhost:3000 #da modificare (indirizzo dopo il login o registrazione)
+          - http://localhost:3000/api/auth/callback/cognito #(indirizzo dopo il login o registrazione)
         LogoutURLs:
           - http://localhost:3000 #da modificare (indirizzo dopo il logout)
         #DefaultRedirectURI: da inserire forse
