@@ -1,3 +1,5 @@
+'use strict';
+
 import * as uuid from 'uuid';
 
 import { database } from '../../database/database';
