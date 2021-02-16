@@ -12,6 +12,17 @@ provider:
   environment:
     NAMESPACE: ${opt:stage, self:provider.stage}
 
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: 'arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/*'
+
 functions:
   prova2:
     handler: functions/prova2/handler.prova2
@@ -32,8 +43,58 @@ functions:
           path: hello
           method: GET
 
+  #PRODUCT
+  createProduct:
+    handler: functions/product/product.create
+    events:
+      - http:
+          path: product
+          method: post
+          cors: true
+
+  listProduct:
+    handler: functions/product/product.list
+    events:
+      - http:
+          path: product
+          method: get
+          cors: true
+
+  getFromIdProduct:
+    handler: functions/product/get.get
+    events:
+      - http:
+          path: product/getFromId/{id}
+          method: get
+          cors: true
+
+  queryFromNameProduct:
+    handler: functions/product/product.query
+    events:
+      - http:
+          path: product/getFromName/{name}
+          method: get
+          cors: true
+
+  updateProduct:
+    handler: functions/product/product.update
+    events:
+      - http:
+          path: product/{id}
+          method: put
+          cors: true
+
+  deleteProduct:
+    handler: functions/product/product.delete
+    events:
+      - http:
+          path: product/{id}
+          method: delete
+          cors: true
+
 resources:
   Resources:
+    #COGNITO
     #Cognito - User pool
     CognitoUserPool:
       Type: AWS::Cognito::UserPool
@@ -117,6 +178,36 @@ resources:
         #RoleArn: String
         UserPoolId:
           Ref: CognitoUserPool
+
+    #DYNAMO_DB
+    ProductTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.NAMESPACE}-product
+        GlobalSecondaryIndexes:
+          - IndexName: name_index
+            KeySchema:
+              - AttributeName: name
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
 
 plugins:
   - serverless-plugin-typescript
