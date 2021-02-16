@@ -61,7 +61,7 @@ functions:
           cors: true
 
   getFromIdProduct:
-    handler: functions/product/get.get
+    handler: functions/product/product.get
     events:
       - http:
           path: product/getFromId/{id}
