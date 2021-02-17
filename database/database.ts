@@ -5,45 +5,61 @@ import { DynamoDB } from 'aws-sdk';
 const dynamoDb = new DynamoDB.DocumentClient();
 
 export const database = {
-  put: function (params) {
-    // write to the database
-    dynamoDb.put(params, (error) => {
-      // handle potential errors
-      if (error) throw error;
-    });
+  put: async function (params) {
+    // create element in the database
+    return await dynamoDb.put(params).promise();
   },
 
-  query: function (params, callback) {
+  query: async function (params) {
     // fetch from the database
-    dynamoDb.query(params, (error, result) => {
-      // handle potential errors
-      if (error) throw error;
+    let result = await dynamoDb.query(params).promise();
+    let response;
 
-      // create a response
-      const response = {
+    if (result.$response.error) {
+      console.error(result.$response.error);
+
+      // create a response error
+      response = {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: 'Database error',
+        }),
+      };
+    } else {
+      //create a response
+      response = {
         statusCode: 200,
         body: JSON.stringify(
           result.Items!.length > 0
             ? result.Items
             : {
-                message: 'Product not found',
+                message: 'Products not found',
               }
         ),
       };
+    }
 
-      callback(null, response);
-    });
+    return response;
   },
 
-  get: function (params, callback) {
+  get: async function (params) {
     // fetch from the database
-    dynamoDb.get(params, (error, result) => {
-      // handle potential errors
+    let result = await dynamoDb.get(params).promise();
+    let response;
 
-      if (error) throw error;
+    if (result.$response.error) {
+      console.error(result.$response.error);
 
-      // create a response
-      const response = {
+      // create a response error
+      response = {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: 'Database error',
+        }),
+      };
+    } else {
+      //create a response
+      response = {
         statusCode: 200,
         body: JSON.stringify(
           result.Item
@@ -53,46 +69,50 @@ export const database = {
               }
         ),
       };
+    }
 
-      callback(null, response);
-    });
+    return response;
   },
 
-  scan: function (params, callback) {
+  scan: async function (params) {
     // fetch all from the database
-    // For production workloads you should design your tables and indexes so that your applications can use Query instead of Scan.
-    dynamoDb.scan(params, (error, result) => {
-      // handle potential errors
-      if (error) throw error;
+    let result = await dynamoDb.scan(params).promise();
+    let response;
 
-      // create a response
-      const response = {
+    if (result.$response.error) {
+      console.error(result.$response.error);
+
+      // create a response error
+      response = {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: 'Database error',
+        }),
+      };
+    } else {
+      //create a response
+      response = {
         statusCode: 200,
         body: JSON.stringify(
           result.Items!.length > 0
             ? result.Items
             : {
-                message: 'Empty list',
+                message: 'Empty table',
               }
         ),
       };
-      callback(null, response);
-    });
+    }
+
+    return response;
   },
 
-  update: function (params) {
+  update: async function (params) {
     // update product in the database
-    dynamoDb.update(params, (error) => {
-      // handle potential errors
-      if (error) throw error;
-    });
+    return await dynamoDb.update(params).promise();
   },
 
-  delete: function (params) {
-    // update product in the database
-    dynamoDb.delete(params, (error) => {
-      // handle potential errors
-      if (error) throw error;
-    });
+  delete: async function (params) {
+    // delete product in the database
+    return await dynamoDb.delete(params).promise();
   },
 };

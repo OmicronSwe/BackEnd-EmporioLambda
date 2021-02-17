@@ -6,14 +6,20 @@ import { database } from '../../database/database';
 
 module.exports = {
   //create product
-  create: function (event, context, callback) {
+  create: async function (event, context, callback) {
     const data = JSON.parse(event.body);
+    let response;
 
-    //validation error
     if (typeof data.name !== 'string' || typeof data.description !== 'string') {
       console.error('Validation Failed');
-      callback(new Error("Couldn't create the product item"));
-      return;
+
+      response = {
+        statusCode: 400,
+        headers: { 'Content-Type': 'text/plain' },
+        body: "Couldn't create the product item.",
+      };
+
+      return response;
     }
 
     const params = {
@@ -25,28 +31,33 @@ module.exports = {
       },
     };
 
-    // call put
-    try {
-      database.put(params);
+    let responseDB = (await database.put(params)).$response;
 
-      // create a response
-      const response = {
-        statusCode: 200,
+    if (responseDB.error) {
+      console.error(responseDB.error);
+
+      // create a response error
+      response = {
+        statusCode: 500,
         body: JSON.stringify({
-          message: 'Product "' + params.Item.name + '" insert correctly',
+          message: 'Database Error',
         }),
       };
-
-      callback(null, response);
-    } catch (error) {
-      console.error(error);
-
-      callback(new Error('Database error'));
+    } else {
+      // create a response
+      response = {
+        statusCode: 200,
+        body: JSON.stringify({
+          message: 'Product "' + data.name + '" created correctly',
+        }),
+      };
     }
+
+    return response;
   },
 
   //get product from name
-  query: function (event, context, callback) {
+  query: async function (event, context, callback) {
     const params = {
       TableName: process.env.NAMESPACE + '-product',
       IndexName: 'name_index',
@@ -59,29 +70,26 @@ module.exports = {
       },
     };
 
-    // write to the database
-    try {
-      database.query(params, callback);
-    } catch (error) {
-      console.error(error);
-
-      callback(new Error('Database error'));
-    }
+    // fetch items from database
+    return await database.query(params);
   },
 
   //update product from id
-  update: function (event, context, callback) {
+  update: async function (event, context, callback) {
     const data = JSON.parse(event.body);
+    let response;
 
     // validation
     if (typeof data.name !== 'string' || typeof data.description !== 'string') {
       console.error('Validation Failed');
-      callback(null, {
+
+      response = {
         statusCode: 400,
         headers: { 'Content-Type': 'text/plain' },
         body: "Couldn't update the product item.",
-      });
-      return;
+      };
+
+      return response;
     }
 
     const params = {
@@ -100,27 +108,35 @@ module.exports = {
     };
 
     // write to the database
-    try {
-      database.update(params);
+    let responseDB = (await database.update(params)).$response;
 
+    if (responseDB.error) {
+      // create a response error
+      console.error(responseDB.error);
+
+      response = {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: 'Database error',
+        }),
+      };
+    } else {
       // create a response
-      const response = {
+      response = {
         statusCode: 200,
         body: JSON.stringify({
           message: 'Product "' + data.name + '" updated correctly',
         }),
       };
-
-      callback(null, response);
-    } catch (error) {
-      console.error(error);
-
-      callback(new Error('Database error'));
     }
+
+    return response;
   },
 
   //update product from id
-  delete: function (event, context, callback) {
+  delete: async function (event, context, callback) {
+    let response;
+
     const params = {
       TableName: process.env.NAMESPACE + '-product',
       Key: {
@@ -129,44 +145,43 @@ module.exports = {
     };
 
     // write to the database
-    try {
-      database.delete(params);
+    let responseDB = (await database.delete(params)).$response;
 
+    if (responseDB.error) {
+      // create a response error
+      console.error(responseDB.error);
+
+      response = {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: 'Database error',
+        }),
+      };
+    } else {
       // create a response
-      const response = {
+      response = {
         statusCode: 200,
         body: JSON.stringify({
           message: 'Product deleted correctly',
         }),
       };
-
-      callback(null, response);
-    } catch (error) {
-      console.error(error);
-
-      callback(new Error('Database error'));
     }
+
+    return response;
   },
 
   //get all product
-  list: function (event, context, callback) {
+  list: async function (event, context, callback) {
     const params = {
       TableName: process.env.NAMESPACE + '-product',
     };
 
-    // For production workloads you should design your tables and indexes so that your applications can use Query instead of Scan.
     // fetch all items from database
-    try {
-      database.scan(params, callback);
-    } catch (error) {
-      console.error(error);
-
-      callback(new Error('Database error'));
-    }
+    return await database.scan(params);
   },
 
   //get product from id
-  get: function (event, context, callback) {
+  get: async function (event, context, callback) {
     const params = {
       TableName: process.env.NAMESPACE + '-product',
       Key: {
@@ -174,13 +189,7 @@ module.exports = {
       },
     };
 
-    //call get
-    try {
-      database.get(params, callback);
-    } catch (error) {
-      console.error(error);
-
-      callback(new Error('Database error'));
-    }
+    // fetch item from database
+    return await database.get(params);
   },
 };
