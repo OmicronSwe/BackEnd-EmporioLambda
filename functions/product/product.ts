@@ -15,7 +15,11 @@ module.exports = {
 
       response = {
         statusCode: 400,
-        headers: { 'Content-Type': 'text/plain' },
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: "Couldn't create the product item.",
       };
 
@@ -39,6 +43,11 @@ module.exports = {
       // create a response error
       response = {
         statusCode: 500,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({
           message: 'Database Error',
         }),
@@ -48,6 +57,7 @@ module.exports = {
       response = {
         statusCode: 200,
         headers: {
+          //TO-DO only client origin
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'text/plain',
         },
@@ -89,7 +99,11 @@ module.exports = {
 
       response = {
         statusCode: 400,
-        headers: { 'Content-Type': 'text/plain' },
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: "Couldn't update the product item.",
       };
 
@@ -120,6 +134,11 @@ module.exports = {
 
       response = {
         statusCode: 500,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({
           message: 'Database error',
         }),
@@ -128,6 +147,11 @@ module.exports = {
       // create a response
       response = {
         statusCode: 200,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({
           message: 'Product "' + data.name + '" updated correctly',
         }),
@@ -157,6 +181,11 @@ module.exports = {
 
       response = {
         statusCode: 500,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({
           message: 'Database error',
         }),
@@ -165,6 +194,11 @@ module.exports = {
       // create a response
       response = {
         statusCode: 200,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({
           message: 'Product deleted correctly',
         }),

@@ -21,6 +21,11 @@ export const database = {
       // create a response error
       response = {
         statusCode: 500,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({
           message: 'Database error',
         }),
@@ -29,6 +34,11 @@ export const database = {
       //create a response
       response = {
         statusCode: 200,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify(
           result.Items!.length > 0
             ? result.Items
@@ -53,6 +63,11 @@ export const database = {
       // create a response error
       response = {
         statusCode: 500,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({
           message: 'Database error',
         }),
@@ -61,6 +76,11 @@ export const database = {
       //create a response
       response = {
         statusCode: 200,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify(
           result.Item
             ? result.Item
@@ -85,6 +105,11 @@ export const database = {
       // create a response error
       response = {
         statusCode: 500,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({
           message: 'Database error',
         }),
@@ -93,6 +118,11 @@ export const database = {
       //create a response
       response = {
         statusCode: 200,
+        headers: {
+          //TO-DO only client origin
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify(
           result.Items!.length > 0
             ? result.Items
