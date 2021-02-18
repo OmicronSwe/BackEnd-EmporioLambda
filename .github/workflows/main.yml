@@ -24,10 +24,13 @@ jobs:
       - name: Test ESLint 🛂
         run: npm run lint
 
-      - name: Test Lambda function 👮
+      - name: Install DynamoDB local for test
         uses: serverless/github-action@master
         with:
-          args: invoke test
+          args: dynamodb install
+
+      - name: Test Lambda function 👮
+        run: npm run test
 
       - name: Set enviroment variables
         uses: rlespinasse/github-slug-action@v2.x
