@@ -30,7 +30,9 @@ jobs:
           args: dynamodb install
 
       - name: Test Lambda function 👮
-        run: npm run test
+        uses: serverless/github-action@master
+        with:
+          args: invoke test --compilers ts-node/register
 
       - name: Set enviroment variables
         uses: rlespinasse/github-slug-action@v2.x
