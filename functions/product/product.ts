@@ -47,6 +47,10 @@ module.exports = {
       // create a response
       response = {
         statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({
           message: 'Product "' + data.name + '" created correctly',
         }),
