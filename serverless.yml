@@ -44,14 +44,7 @@ functions:
           method: GET
 
   #PRODUCT
-  createProduct:
-    handler: functions/product/product.create
-    events:
-      - http:
-          path: product
-          method: post
-          cors: true
-
+  
   listProduct:
     handler: functions/product/product.list
     events:
