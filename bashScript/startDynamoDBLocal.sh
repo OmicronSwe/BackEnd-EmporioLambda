@@ -13,3 +13,4 @@ do sleep 1; done
 while ! grep "Serverless: DynamoDB - created table" DB_output.txt
 do sleep 1; done
 
+rm DB_output.txt
