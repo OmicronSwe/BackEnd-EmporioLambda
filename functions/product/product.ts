@@ -11,8 +11,6 @@ module.exports = {
     let response;
 
     if (typeof data.name !== 'string' || typeof data.description !== 'string') {
-      console.error('Validation Failed');
-
       response = {
         statusCode: 400,
         headers: {
@@ -20,7 +18,9 @@ module.exports = {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'text/plain',
         },
-        body: "Couldn't create the product item.",
+        body: JSON.stringify({
+          error: "Couldn't create the product item.",
+        }),
       };
 
       return response;
@@ -49,7 +49,7 @@ module.exports = {
           'Content-Type': 'text/plain',
         },
         body: JSON.stringify({
-          message: 'Database Error',
+          error: 'Database Error',
         }),
       };
     } else {
@@ -95,8 +95,6 @@ module.exports = {
 
     // validation
     if (typeof data.name !== 'string' || typeof data.description !== 'string') {
-      console.error('Validation Failed');
-
       response = {
         statusCode: 400,
         headers: {
@@ -104,7 +102,9 @@ module.exports = {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'text/plain',
         },
-        body: "Couldn't update the product item.",
+        body: JSON.stringify({
+          error: "Couldn't update the product item.",
+        }),
       };
 
       return response;
@@ -140,7 +140,7 @@ module.exports = {
           'Content-Type': 'text/plain',
         },
         body: JSON.stringify({
-          message: 'Database error',
+          error: 'Database error',
         }),
       };
     } else {
@@ -187,7 +187,7 @@ module.exports = {
           'Content-Type': 'text/plain',
         },
         body: JSON.stringify({
-          message: 'Database error',
+          error: 'Database error',
         }),
       };
     } else {

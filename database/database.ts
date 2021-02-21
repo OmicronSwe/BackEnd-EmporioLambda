@@ -27,7 +27,7 @@ export const database = {
           'Content-Type': 'text/plain',
         },
         body: JSON.stringify({
-          message: 'Database error',
+          error: 'Database error',
         }),
       };
     } else {
@@ -69,7 +69,7 @@ export const database = {
           'Content-Type': 'text/plain',
         },
         body: JSON.stringify({
-          message: 'Database error',
+          error: 'Database error',
         }),
       };
     } else {
@@ -111,7 +111,7 @@ export const database = {
           'Content-Type': 'text/plain',
         },
         body: JSON.stringify({
-          message: 'Database error',
+          error: 'Database error',
         }),
       };
     } else {
