@@ -136,7 +136,7 @@ describe('Product populate table', () => {
     done();
   });
 
-  it('product create function - Should be "Product "test_populate" created correctly"', async () => {
+  it('product create function - should be "Product "test_populate" created correctly"', async () => {
     const response = await create.run(data);
     expect(JSON.parse(response.body).message).to.be.equal(
       'Product "test_populate" created correctly'
@@ -150,7 +150,7 @@ describe('Product populate table', () => {
     );
   });
 
-  it('product create function - Should be "Couldn\'t create the product item."', async () => {
+  it('product create function - should be "Couldn\'t create the product item."', async () => {
     const response = await create.run(errorData);
     expect(JSON.parse(response.body).error).to.be.equal("Couldn't create the product item.");
   });
@@ -180,7 +180,7 @@ describe('Product populate table', () => {
     );
   });
 
-  it('product update function - Should be "Couldn\'t update the product item."', async () => {
+  it('product update function - should be "Couldn\'t update the product item."', async () => {
     const response = await update.run(errorData);
     expect(JSON.parse(response.body).error).to.be.equal("Couldn't update the product item.");
   });
