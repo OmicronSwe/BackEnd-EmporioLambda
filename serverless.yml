@@ -39,6 +39,7 @@ provider:
   region: eu-central-1
   environment:
     NAMESPACE: ${opt:stage, self:provider.stage}
+    STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
 
   iamRoleStatements:
     - Effect: Allow
@@ -52,6 +53,7 @@ provider:
       Resource: 'arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/*'
 
 functions:
+
   #PRODUCT
   createProduct:
     handler: functions/product/product.create
@@ -100,7 +102,7 @@ functions:
           path: product/{id}
           method: delete
           cors: true
-
+  
   #STRIPE
   charge:
     handler: functions/stripe/stripe.charge
