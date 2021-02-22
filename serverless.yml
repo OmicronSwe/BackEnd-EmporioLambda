@@ -52,25 +52,6 @@ provider:
       Resource: 'arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/*'
 
 functions:
-  prova2:
-    handler: functions/prova2/handler.prova2
-    events:
-      - http:
-          path: prova2
-          method: POST
-  prova:
-    handler: functions/prova/handler.prova
-    events:
-      - http:
-          path: prova
-          method: POST
-  hello:
-    handler: functions/hello/handler.hello
-    events:
-      - http:
-          path: hello
-          method: GET
-
   #PRODUCT
   createProduct:
     handler: functions/product/product.create
@@ -118,6 +99,15 @@ functions:
       - http:
           path: product/{id}
           method: delete
+          cors: true
+
+  #STRIPE
+  charge:
+    handler: functions/stripe/stripe.charge
+    events:
+      - http:
+          path: charge
+          method: post
           cors: true
 
 resources:
