@@ -1,5 +1,6 @@
 'use strict';
 const https = require('https');
+console.log("STRIPE_KEY" + process.env.STRIPE_SECRET_KEY);
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   httpAgent: new https.Agent({ keepAlive: false }),
 });

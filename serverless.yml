@@ -39,7 +39,7 @@ provider:
   region: eu-central-1
   environment:
     NAMESPACE: ${opt:stage, self:provider.stage}
-    STRIPE_SECRET_KEY: ${ssm:STRIPE_KEY}
+    #STRIPE_SECRET_KEY: ${ssm:STRIPE_KEY}
 
   iamRoleStatements:
     - Effect: Allow
