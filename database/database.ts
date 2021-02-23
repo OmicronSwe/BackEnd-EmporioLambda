@@ -43,7 +43,7 @@ export const database = {
           result.Items!.length > 0
             ? result.Items
             : {
-                message: 'Products not found',
+                message: 'Elements not found',
               }
         ),
       };
@@ -85,7 +85,7 @@ export const database = {
           result.Item
             ? result.Item
             : {
-                message: 'Product not found',
+                message: 'Element not found',
               }
         ),
       };

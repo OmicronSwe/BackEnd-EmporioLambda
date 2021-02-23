@@ -111,6 +111,31 @@ functions:
           method: post
           cors: true
 
+  #CART
+  cartInsert:
+    handler: functions/cart/cart.insert
+    events:
+      - http:
+          path: cart
+          method: post
+          cors: true
+
+  cartDelete:
+    handler: functions/cart/cart.delete
+    events:
+      - http:
+          path: cart/{email}
+          method: delete
+          cors: true
+
+  getProductsFromCart:
+    handler: functions/cart/cart.get
+    events:
+      - http:
+          path: cart/{email}
+          method: get
+          cors: true
+
 resources:
   Resources:
     #COGNITO
@@ -227,3 +252,20 @@ resources:
             ProvisionedThroughput:
               ReadCapacityUnits: 1
               WriteCapacityUnits: 1
+
+    CartTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.NAMESPACE}-cart
