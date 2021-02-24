@@ -24,12 +24,19 @@ jobs:
       - name: Test ESLint 🛂
         run: npm run lint
 
-      - name: Test Lambda function 👮
-        uses: serverless/github-action@master
-        with:
-          args: invoke test
+      - name: Install Serverless
+        run: npm install -g serverless
 
-      - name: Set enviroment variables
+      - name: Install Java JRE for DynamoDB local
+        run: sudo apt install openjdk-8-jre
+
+      - name: Install DynamoDB local for test
+        run: serverless dynamodb install
+
+      - name: Test Lambda function 👮
+        run: serverless invoke test --compilers ts-node/register
+
+      - name: Set enviroment variables of GitHub
         uses: rlespinasse/github-slug-action@v2.x
 
       # - name: Clean Package
@@ -44,27 +51,21 @@ jobs:
 
       - name: Deploy function to local 🚀⭐
         if: env.GITHUB_REF_SLUG!='develop' && env.GITHUB_REF_SLUG!='master'
-        uses: serverless/github-action@master
-        with:
-          args: deploy -s local
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          serverless deploy -s local
 
       - name: Deploy function to test 🚀🌟
         if: env.GITHUB_REF_SLUG=='develop'
-        uses: serverless/github-action@master
-        with:
-          args: deploy -s test
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          serverless deploy -s test
 
       - name: Deploy function to staging 🚀✨
         if: env.GITHUB_REF_SLUG=='master'
-        uses: serverless/github-action@master
-        with:
-          args: deploy -s staging
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          serverless deploy -s staging
