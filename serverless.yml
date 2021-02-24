@@ -39,6 +39,7 @@ provider:
   region: eu-central-1
   environment:
     NAMESPACE: ${opt:stage, self:provider.stage}
+    STRIPE_SECRET_KEY: ${ssm:STRIPE_KEY}
 
   iamRoleStatements:
     - Effect: Allow
@@ -52,25 +53,6 @@ provider:
       Resource: 'arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/*'
 
 functions:
-  prova2:
-    handler: functions/prova2/handler.prova2
-    events:
-      - http:
-          path: prova2
-          method: POST
-  prova:
-    handler: functions/prova/handler.prova
-    events:
-      - http:
-          path: prova
-          method: POST
-  hello:
-    handler: functions/hello/handler.hello
-    events:
-      - http:
-          path: hello
-          method: GET
-
   #PRODUCT
   createProduct:
     handler: functions/product/product.create
@@ -118,6 +100,40 @@ functions:
       - http:
           path: product/{id}
           method: delete
+          cors: true
+
+  #STRIPE
+  charge:
+    handler: functions/stripe/stripe.charge
+    events:
+      - http:
+          path: charge
+          method: post
+          cors: true
+
+  #CART
+  cartInsert:
+    handler: functions/cart/cart.insert
+    events:
+      - http:
+          path: cart
+          method: post
+          cors: true
+
+  cartDelete:
+    handler: functions/cart/cart.delete
+    events:
+      - http:
+          path: cart/{email}
+          method: delete
+          cors: true
+
+  getProductsFromCart:
+    handler: functions/cart/cart.get
+    events:
+      - http:
+          path: cart/{email}
+          method: get
           cors: true
 
 resources:
@@ -236,3 +252,20 @@ resources:
             ProvisionedThroughput:
               ReadCapacityUnits: 1
               WriteCapacityUnits: 1
+
+    CartTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.NAMESPACE}-cart

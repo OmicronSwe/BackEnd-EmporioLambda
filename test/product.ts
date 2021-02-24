@@ -39,14 +39,14 @@ describe('Product empty table', () => {
     expect(JSON.parse(response.body).message).to.be.equal('Empty table');
   });
 
-  it('product query function - should be "Products not found"', async () => {
+  it('product query function - should be "Elements not found"', async () => {
     const response = await query.run(data);
-    expect(JSON.parse(response.body).message).to.be.equal('Products not found');
+    expect(JSON.parse(response.body).message).to.be.equal('Elements not found');
   });
 
-  it('product get function - should be "Product not found"', async () => {
+  it('product get function - should be "Element not found"', async () => {
     const response = await get.run(data);
-    expect(JSON.parse(response.body).message).to.be.equal('Product not found');
+    expect(JSON.parse(response.body).message).to.be.equal('Element not found');
   });
 });
 
@@ -207,6 +207,6 @@ describe('Product populate table', () => {
 
     //check if item is deleted in db
     const responseAfterUpdate = await get.run(dataQuery);
-    expect(JSON.parse(responseAfterUpdate.body).message).to.be.equal('Product not found');
+    expect(JSON.parse(responseAfterUpdate.body).message).to.be.equal('Element not found');
   });
 });
