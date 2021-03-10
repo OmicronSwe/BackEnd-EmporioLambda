@@ -8,6 +8,10 @@ jspm_packages
 # DynamoDB local
 .dynamodb
 
+# Output file for test with DynamoDB local
+.dynamodb.pid
+DB_output.txt
+
 # build of serverless-offline
 .build
 
