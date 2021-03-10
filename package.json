@@ -9,7 +9,8 @@
     "prettier-check": "prettier -c --ignore-path .gitignore \"**/*.{css,html,js,json,md,yaml,yml,ts}\"",
     "prettier-check:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=ts --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
     "prettify": "prettier --write --ignore-path .gitignore \"**/*.{css,html,js,json,md,yaml,yml,ts}\"",
-    "prettify:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=ts --ext=md --ext=yaml --ext=yml -- prettier --write"
+    "prettify:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=ts --ext=md --ext=yaml --ext=yml -- prettier --write",
+    "coverage": "nyc npm test"
   },
   "repository": {
     "type": "git",
@@ -31,9 +32,11 @@
     "@types/mocha": "^8.2.0",
     "@types/uuid": "^8.3.0",
     "aws-lambda": "^1.0.6",
+    "codecov": "^3.8.1",
     "eslint": "^7.19.0",
     "eslint-plugin-import": "^2.22.1",
     "git-list-updated": "^1.2.1",
+    "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "save-dev": "^0.0.1-security",
     "serverless-dynamodb-local": "^0.2.39",

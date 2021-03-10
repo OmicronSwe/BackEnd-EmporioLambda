@@ -1,0 +1,26 @@
+Serverless: Deprecation warning: Starting with next major version, API Gateway naming will be changed from "{stage}-{service}" to "{service}-{stage}".
+            Set "provider.apiGateway.shouldStartNameWithService" to "true" to adapt to the new behavior now.
+            More Info: https://www.serverless.com/framework/docs/deprecations/#AWS_API_GATEWAY_NAME_STARTING_WITH_SERVICE
+ 
+  Error --------------------------------------------------
+ 
+  Error: spawn java ENOENT
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:269:19)
+      at onErrorNT (internal/child_process.js:465:16)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+ 
+     For debugging logs, run again after setting the "SLS_DEBUG=*" environment variable.
+ 
+  Get Support --------------------------------------------
+     Docs:          docs.serverless.com
+     Bugs:          github.com/serverless/serverless/issues
+     Issues:        forum.serverless.com
+ 
+  Your Environment Information ---------------------------
+     Operating System:          win32
+     Node Version:              14.15.4
+     Framework Version:         2.21.1
+     Plugin Version:            4.4.2
+     SDK Version:               2.3.2
+     Components Version:        3.6.0
+ 
