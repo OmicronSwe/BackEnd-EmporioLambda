@@ -10,7 +10,7 @@
     "prettier-check:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=ts --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
     "prettify": "prettier --write --ignore-path .gitignore \"**/*.{css,html,js,json,md,yaml,yml,ts}\"",
     "prettify:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=ts --ext=md --ext=yaml --ext=yml -- prettier --write",
-    "coverage": "nyc npm test"
+    "coverage": "nyc --reporter=lcov npm test"
   },
   "repository": {
     "type": "git",
