@@ -33,10 +33,7 @@ jobs:
       - name: Install DynamoDB local for test
         run: serverless dynamodb install
 
-      - name: Test Lambda function 👮
-        run: serverless invoke test --compilers ts-node/register
-
-      - name: Unit tests
+      - name: Test Lambda functions and produce coverage
         run: npm run coverage
 
       - name: Push coverage
